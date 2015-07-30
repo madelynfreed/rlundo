@@ -20,22 +20,18 @@ from rlundo.termrewrite import run_with_listeners
 from rlundo import interps
 
 
-def start_undoable_rl(args):
+def start_undoable_rl(interpreter, interparg):
     for command, predicate in interps.interpreters:
-        if predicate(argobject.interpreter):
-            #return run_with_listeners(command + argobject.interparg)
-            return run_with_listeners(command)
+        if predicate(interpreter):
+            return run_with_listeners(command + interparg)
     else:
         modify_env_with_modified_rl()
-        #run_with_listeners(argobject.interpreter + argobject.interparg)
-        run_with_listeners(argobject.interpreter)
+        run_with_listeners(interpreter + interparg)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='accepting an interpreter and any interpreter arguments into rlundo')
     parser.add_argument('interpreter', metavar='I', help='command to call the interpreter')
-    #parser.add_argument('interparg', action='store_const', nargs='?', help='any arguments you can feed into the interpreter')
+    parser.add_argument('interparg', nargs=argparse.REMAINDER, help='any arguments you can feed into the interpreter')
     argobject = parser.parse_args()
-    print "XXXXXXXOOOOO"
-    print argobject 
-    start_undoable_rl(argobject)
+    start_undoable_rl(argobject.interpreter, argobject.interparg)
