@@ -22,12 +22,20 @@ from rlundo import interps
 
 def start_undoable_rl(args):
     for command, predicate in interps.interpreters:
-        if predicate(args[1]):
-            return run_with_listeners(command + args[2:])
+        if predicate(argobject.interpreter):
+            #return run_with_listeners(command + argobject.interparg)
+            return run_with_listeners(command)
     else:
         modify_env_with_modified_rl()
-        run_with_listeners(args[1:])
+        #run_with_listeners(argobject.interpreter + argobject.interparg)
+        run_with_listeners(argobject.interpreter)
 
 
 if __name__ == "__main__":
-    start_undoable_rl(sys.argv)
+    parser = argparse.ArgumentParser(description='accepting an interpreter and any interpreter arguments into rlundo')
+    parser.add_argument('interpreter', metavar='I', help='command to call the interpreter')
+    #parser.add_argument('interparg', action='store_const', nargs='?', help='any arguments you can feed into the interpreter')
+    argobject = parser.parse_args()
+    print "XXXXXXXOOOOO"
+    print argobject 
+    start_undoable_rl(argobject)
