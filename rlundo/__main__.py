@@ -9,6 +9,7 @@ Start a repl with undo feature.
 from __future__ import unicode_literals
 import sys
 import os
+import argparse
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import rlundo
